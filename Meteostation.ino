@@ -11,19 +11,14 @@ LiquidCrystal_I2C lcd(0x27, 20, 2); // присваиваем имя lcd для 
 DHT dht(4, DHT11); // к какому порту подключаем датчик
 byte gradus[8] = {0b01100, 0b10010, 0b10010, 0b01100, 0b00000, 0b00000, 0b00000, 0b00000};
 int pinD0 = A1;                    // Пин к которому подключен D0
-
-
 // создаем объект strip с нужными характеристиками
 Adafruit_NeoPixel strip (NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
-
-
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
   lcd.init();         // инициализация LCD дисплея
   lcd.backlight();    // включение подсветки дисплея
   lcd.createChar(1, gradus);
-
   pinMode (pinD0, INPUT);          // Установим вывод A1 как вход
   pinMode (zv, INPUT);          // Установим вывод A2 как вход
   strip.begin();                     // инициализируем ленту
@@ -34,7 +29,6 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-
   byte h = dht.readHumidity();    // считываем значение температуры
   byte t = dht.readTemperature(); // считываем значение влажности
   byte s = analogRead(A1);
@@ -71,16 +65,13 @@ void loop() {
     lcd.setCursor(0, 0);
     strip.setPixelColor(0, strip.Color(0, 0, 255));   // включаем синий цвет на 1 светодиоде
     strip.show();   // отправляем сигнал на лентy
-
     lcd.print("TP:");      // используем латинские буквы
     lcd.print("nan");
     lcd.setCursor(0, 1);
     lcd.print("VL:");      // используем латинские буквы
     lcd.print("nan");
-
     strip.setPixelColor(1, strip.Color(0, 0, 255));   // включаем синий цвет на 1 светодиоде
     strip.show();   // отправляем сигнал на лентy
-
   }
 
 
@@ -91,7 +82,6 @@ void loop() {
     lcd.print("nan");
     strip.setPixelColor(4, strip.Color(0, 0, 255));   // включаем синий цвет на 1 светодиоде
     strip.show();   // отправляем сигнал на ленту
-
   }
 
   if (!d)
@@ -99,7 +89,6 @@ void loop() {
     Serial.println("Датчик давления неисправен/неподключен");
     lcd.setCursor(13, 0);
     lcd.print("nan");
-    //strip.clear();
     strip.setPixelColor(2, strip.Color(0, 0, 255));   // включаем синий цвет на 1 светодиоде
     strip.show();   // отправляем сигнал на ленту
   }
@@ -110,7 +99,6 @@ void loop() {
   }
   if (t <= 26 & t != 0)
   {
-
     strip.setPixelColor(0, strip.Color(0, 255, 0));   // включаем зеленый цвет на 1 светодиоде
     strip.show();   // отправляем сигнал на ленту
   }
@@ -139,19 +127,15 @@ void loop() {
   }
   if (s > 100 && s < 170)
   {
-
     lcd.print("ON ");
     strip.setPixelColor(4, strip.Color(255, 0, 0));   // включаем красный цвет на 1 светодиоде
     strip.show();   // отправляем сигнал на ленту
   }
   if (s > 170)
   {
-
     lcd.print("OFF");
     strip.setPixelColor(4, strip.Color(0, 255, 0));   // включаем зеленый цвет на 1 светодиоде
     strip.show();   // отправляем сигнал на ленту
   }
   delay(2000);
- // strip.clear();   // выключаем все светодиоды
-
 }
